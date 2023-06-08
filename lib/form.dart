@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/details.dart';
+import 'dart:collection';
 
 
 class MyForm extends StatefulWidget {
@@ -14,7 +15,7 @@ class _MyFormState extends State<MyForm> {
   final _nameController = TextEditingController();
   final _adderssController = TextEditingController();
 
-  
+  final Map<String, String> listPer = HashMap();
   @override
   void dispose(){
     
@@ -22,8 +23,6 @@ class _MyFormState extends State<MyForm> {
     _adderssController.dispose();
     super.dispose();
   }
-  
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,28 +52,40 @@ class _MyFormState extends State<MyForm> {
                 ),
               ),
               const SizedBox(height: 30),
-              MyButton(context)
+              MyButtonSave(context),
+              const SizedBox(height: 20),
+              MyButton(context),
             ],
           ),
         ),
         )
       ;
   }
-
+  // ignore: non_constant_identifier_names
   OutlinedButton MyButton(BuildContext context) {
-    return OutlinedButton(
-          child: Text("Sumbit"),
+    return  OutlinedButton(
           onPressed: (){
             Navigator.push(
               context, 
               MaterialPageRoute(builder: (context){
-                return Details(name: _nameController.text,address: _adderssController.text);
-              }
-              ),
-              
+                return Details(list: listPer,);
+                  }
+                ),
               );
           },
           style: OutlinedButton.styleFrom(minimumSize: const Size(200, 50)),
-          );
+          child: const Text("Detalis"),
+        );
   }
+  // ignore: non_constant_identifier_names
+  OutlinedButton MyButtonSave(BuildContext context) {
+    return OutlinedButton(
+          onPressed: (){
+            listPer.addAll({_nameController.text : _adderssController.text});
+          },
+          style: OutlinedButton.styleFrom(minimumSize: const Size(200, 50)),
+          child: const Text("Save"),
+        );
+  }
+
 }
