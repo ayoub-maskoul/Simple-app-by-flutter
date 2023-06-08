@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 
 
 
-class Details extends StatefulWidget {
-  const Details({super.key});
+class Details extends StatelessWidget {
+    Details({Key? key, required this.name ,required this.address}) :super(key: key);
 
-  @override
-  State<Details> createState() => _DetailsState();
-}
-
-class _DetailsState extends State<Details> {
+  String name;
+  String address;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,9 +19,28 @@ class _DetailsState extends State<Details> {
           },
           ),
       ),
-      body: const Center(
-        child: Text("Details "),
+      body:  Center(
+        child: Card(
+        margin: const EdgeInsets.all(8),
+        child:  SizedBox(
+          width: 300,
+          height: 100,
+
+          child: Center(
+            
+            child: Column(
+            children: [
+            const Text("Name"),
+            Text(name.toString()),
+            const Text("Addresss"),
+            Text(address.toString()),
+        ]
+            ),
+        ),
+
       ),
+      ),
+      )
     );
   }
 }
