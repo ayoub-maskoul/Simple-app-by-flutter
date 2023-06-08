@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 
 
 class Details extends StatelessWidget {
-    Details({Key? key, required this.list}) :super(key: key);
-
-  Map list;
+  Details({Key? key, required this.lst}) :super(key: key);
+  
+  List lst;
+  
+  
   @override
   Widget build(BuildContext context) {
 
@@ -24,7 +26,7 @@ class Details extends StatelessWidget {
       ),
       body:
             ListView(
-              children: List.generate(list.length, 
+              children: List.generate(lst.length, 
               (index) {
                 return Card(
                   margin: const EdgeInsets.all(8.0),
@@ -32,18 +34,43 @@ class Details extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Text("Name:",style: TextStyle(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Name:",style: TextStyle(
                         fontSize: 20
                       )),
-                      Text(list.values.toList(growable: false)[index].toString(),style: const TextStyle(
+                      Text(lst[index].name.toString(),style: const TextStyle(
                         fontSize: 20
                       )),
-                      const Text("Address:",style: TextStyle(
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Age:",style: TextStyle(
                         fontSize: 20
                       )),
-                      Text(list.keys.toList(growable: false)[index].toString(),style: const TextStyle(
+                      
+                      Text(lst[index].age.toString(),style: const TextStyle(
+                        fontSize: 20
+                      ))
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Address:",style: TextStyle(
                         fontSize: 20
                       )),
+                      Text(lst[index].address.toString(),style: const TextStyle(
+                        fontSize: 20
+                      )),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
                       IconButton(onPressed: () {
                         showDialog<String>(
                               context: context,
@@ -58,11 +85,11 @@ class Details extends StatelessWidget {
                                   TextButton(
                                     onPressed: (){
                                       Navigator.pop(context, 'OK');
-                                      list.remove(list.keys.toList(growable: false)[index]);
+                                      lst.remove(lst[index]);
                                       Navigator.pushReplacement(
                                           context, 
                                           MaterialPageRoute(builder: (context){
-                                            return Details(list: list,);
+                                            return Details(lst:lst);
                                           }
                                           ),
                                         );
