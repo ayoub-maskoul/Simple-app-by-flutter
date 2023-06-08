@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project/details.dart';
+import 'package:test4/details.dart';
+import 'dart:collection';
 
 
 class MyForm extends StatefulWidget {
@@ -14,7 +15,7 @@ class _MyFormState extends State<MyForm> {
   final _nameController = TextEditingController();
   final _adderssController = TextEditingController();
 
-  
+  final Map<String, String> listPer = HashMap();
   @override
   void dispose(){
     
@@ -53,7 +54,8 @@ class _MyFormState extends State<MyForm> {
                 ),
               ),
               const SizedBox(height: 30),
-              MyButton(context)
+              MyButtonSave(context),
+              MyButton(context),
             ],
           ),
         ),
@@ -68,7 +70,7 @@ class _MyFormState extends State<MyForm> {
             Navigator.push(
               context, 
               MaterialPageRoute(builder: (context){
-                return Details(name: _nameController.text,address: _adderssController.text);
+                return Details(name: _nameController.text,address: _adderssController.text,list: listPer,);
               }
               ),
               
@@ -77,4 +79,16 @@ class _MyFormState extends State<MyForm> {
           style: OutlinedButton.styleFrom(minimumSize: const Size(200, 50)),
           );
   }
+
+  OutlinedButton MyButtonSave(BuildContext context) {
+    return OutlinedButton(
+          child: Text("Save"),
+          onPressed: (){
+           listPer.addAll({_nameController.text : _adderssController.text});
+          },
+          style: OutlinedButton.styleFrom(minimumSize: const Size(200, 50)),
+          );
+  }
+
+
 }
