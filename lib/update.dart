@@ -5,36 +5,49 @@ import 'dart:collection';
 import 'package:project/person.dart';
 
 
-class MyForm extends StatefulWidget {
-  const MyForm({super.key});
+class Update extends StatefulWidget {
+    Update( this.lst, this.index, {super.key});
 
+  List lst;
+  int index;
   @override
-  State<MyForm> createState() => _MyFormState();
+  // ignore: no_logic_in_create_state
+  State<Update> createState() => _UpdateState(lst, index);
 }
 
 
-class _MyFormState extends State<MyForm> {
-  final _nameController = TextEditingController();
-  final _adderssController = TextEditingController();
-  final _ageController = TextEditingController();
+class _UpdateState extends State<Update> {
+  
+    _UpdateState(this.lst,  this.index);
+  
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _adderssController = TextEditingController();
+  TextEditingController _ageController = TextEditingController();
+  
+  
 
-    var lst = [];
+    List lst;
+    int index;
     
-  @override
-  void dispose(){
-    
-    _nameController.dispose();
-    _ageController.dispose();
-    _adderssController.dispose();
-    super.dispose();
-    
-  }
+    @override
+void initState() {
+  super.initState();
+    _nameController.text = lst[index].name;
+    _adderssController.text = lst[index].address;
+    _ageController.text = lst[index].age.toString();
+}
   @override
   Widget build(BuildContext context) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text("Simple app"),
-          centerTitle: true,
+          title: const Text("Update"),
+          
+          leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          ),
         ),
         body: Container(
           padding: const EdgeInsets.all(30),
@@ -68,8 +81,6 @@ class _MyFormState extends State<MyForm> {
                   border: OutlineInputBorder()
                 ),
               ),
-              const SizedBox(height: 30),
-              SaveButton(),
               const SizedBox(height: 20),
               DetailsButton(context),
             ],
@@ -82,26 +93,14 @@ class _MyFormState extends State<MyForm> {
   OutlinedButton DetailsButton(BuildContext context) {
     return OutlinedButton(
         onPressed: (){
-          Navigator.push(
-            context, 
-            MaterialPageRoute(fullscreenDialog: true, builder: (context){
-              return Details(list : lst);
-                }
-              ),
-            );
+          lst[index] = Person(_nameController.text, int.parse(_ageController.text), _adderssController.text);
+          Navigator.pop( context, MaterialPageRoute( builder: (context) => Details(list : lst)));
+          
         },
         style: OutlinedButton.styleFrom(minimumSize: const Size(200, 50)),
-        child: const Text("Detalis"),
+        child: const Text("Update"),
       );
   }
 
-  OutlinedButton SaveButton() {
-    return OutlinedButton(
-        onPressed: (){
-          lst.add(Person(_nameController.text , int.parse(_ageController.text) ,_adderssController.text));
-        },
-        style: OutlinedButton.styleFrom(minimumSize: const Size(200, 50)),
-        child: const Text("Save"),
-      );
-  }
+
 }

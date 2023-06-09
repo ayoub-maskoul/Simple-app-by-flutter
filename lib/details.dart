@@ -1,26 +1,44 @@
+// ignore_for_file: no_logic_in_create_state
+
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:project/form.dart';
+import 'package:project/update.dart';
 
 
 
-class Details extends StatelessWidget {
-  Details({Key? key, required this.lst}) :super(key: key);
+class Details extends StatefulWidget {
+  Details({Key? key, required this.list}) :super(key: key);
   
-  List lst;
+  List list;
+
+  @override
+  State<Details> createState() => _DetailsState(list);
+}
+
+class _DetailsState extends State<Details> {
+
+    _DetailsState(this.list);
+    List list;
+    var lst =[];
+    
+  @override
+  void initState() {
+    super.initState();
+    lst = list;
+  }
   
   
   @override
   Widget build(BuildContext context) {
-
- 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Detalis Page"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.of(context).pop();
           },
           ),
       ),
@@ -89,7 +107,7 @@ class Details extends StatelessWidget {
                                       Navigator.pushReplacement(
                                           context, 
                                           MaterialPageRoute(builder: (context){
-                                            return Details(lst:lst);
+                                            return Details(list:lst);
                                           }
                                           ),
                                         );
@@ -101,7 +119,19 @@ class Details extends StatelessWidget {
                             );
                         
                       },
-                        icon: const Icon(Icons.delete))
+                        icon: const Icon(Icons.delete)),
+                      const SizedBox(height: 20),
+                      IconButton(onPressed: () {
+                        
+                          Navigator.push(
+                          context, 
+                          MaterialPageRoute(builder: (context){
+                            return Update(lst,index);
+                              }
+                            ),
+                          ).then((value) => lst = value);
+                      },
+                        icon: const Icon(Icons.edit))
                     ],
                   )
                 );
@@ -112,6 +142,4 @@ class Details extends StatelessWidget {
           
     );
   }
-  
-
 }
